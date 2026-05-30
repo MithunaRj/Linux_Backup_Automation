@@ -10,5 +10,13 @@ if [ $? -eq  0 ]; then
 else
 	echo "Backup Status: Failed" >> $output_file
 fi
-echo "Generated Backup: backup_$timestamp" >> $output_file
+echo "Generated Backup: backup_$timestamp.tar.gz" >> $output_file
+check_file_age() {
+	older_backups=$(find backups -mtime +7)
+	if [ "$older_backups" ]; then
+		echo $older_backups >> $output_file
+	fi
+}
+check_file_age
+
 
